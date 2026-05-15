@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "github.jodevnull.redit.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "plugin": "github.jodevnull.redit.mixin.MixinPlugin",
+  "refmap": "redit.refmap.json",
+  "mixins": [],
+  "client": [
+    "emi.ConfigScreenMixin",
+    "emi.EmiConfigMixin",
+    "emi.EmiScreenManagerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

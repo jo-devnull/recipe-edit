@@ -11,13 +11,6 @@ group = mod_group_id
 repositories {
     mavenLocal()
 
-    maven {
-        url "https://cursemaven.com"
-        content {
-            includeGroup "curse.maven"
-        }
-    }
-
     exclusiveContent {
         forRepository {
             maven {
@@ -31,13 +24,8 @@ repositories {
     }
 
     maven {
-        name = "Iron's Maven - Release"
-        url = "https://code.redspace.io/releases"
-    }
-
-    maven {
-        name = "Iron's Maven - Snapshots"
-        url = "https://code.redspace.io/snapshots"
+        name = "TerraformersMC"
+        url = "https://maven.terraformersmc.com/"
     }
 }
 
