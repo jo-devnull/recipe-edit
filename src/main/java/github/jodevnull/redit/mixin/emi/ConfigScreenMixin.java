@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 
 import java.lang.reflect.Field;
 
-@Mixin(ConfigScreen.class)
+@Mixin(value = ConfigScreen.class, remap = false)
 public class ConfigScreenMixin
 {
     @ModifyExpressionValue(method = "init", at= @At(value = "INVOKE", target = "Ljava/lang/Class;getFields()[Ljava/lang/reflect/Field;"))

@@ -23,7 +23,7 @@ public class REditCommand
     public static int openRecipe(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         final var recipeId = ResourceLocationArgument.getRecipe(context, "id");
 
-        if (RecipeHandler.openRecipe(recipeId.id()))
+        if (RecipeHandler.openRecipe(recipeId.getId()))
             return 1;
 
         return 0;

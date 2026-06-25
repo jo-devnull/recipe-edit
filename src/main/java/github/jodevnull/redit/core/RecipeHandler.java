@@ -4,12 +4,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import github.jodevnull.redit.REdit;
-import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.server.ServerLifecycleHooks;
+import net.minecraftforge.server.ServerLifecycleHooks;
 import oshi.util.tuples.Pair;
 
 import java.io.File;
@@ -49,11 +47,11 @@ public class RecipeHandler
         var namespace = id.getNamespace();
 
         if (id.getPath().startsWith("/")) {
-            namespace = segments.removeFirst();
+            namespace = segments.remove(0);
         }
 
         final var path = String.join("/", segments) + ".json";
-        return ResourceLocation.fromNamespaceAndPath(namespace, "recipe/" + path);
+        return ResourceLocation.fromNamespaceAndPath(namespace, "recipes/" + path);
     }
 
     public static Optional<File> getRecipeFile(ResourceLocation id) throws IOException {
@@ -83,7 +81,7 @@ public class RecipeHandler
 
             // limit the size of the array to avoid memory leaks
             if (ADDED_RECIPES.size() > 64)
-                ADDED_RECIPES.removeFirst();
+                ADDED_RECIPES.remove(0);
 
             ADDED_RECIPES.add(new Pair<>(recipe, json));
             return Optional.of(recipe.toFile());
@@ -104,12 +102,8 @@ public class RecipeHandler
             getRecipeFile(id).ifPresent(Util.getPlatform()::openFile);
             return true;
         } catch (Exception e) {
-            if (player != null)
-                player.displayClientMessage(
-                    Component.literal("Failed to open recipe!").withStyle(style -> style.withColor(ChatFormatting.RED)), false
-                );
-
-            REdit.LOGGER.error("Failed to open recipe: {}", id);
+            REdit.clientError(player, "Failed to open recipe %s", id);
+            REdit.LOGGER.error("Failed to open recipe {}", id);
         }
 
         return false;

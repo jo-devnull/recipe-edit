@@ -1,8 +1,8 @@
 package github.jodevnull.redit.mixin;
 
-import net.neoforged.fml.ModList;
-import net.neoforged.fml.loading.LoadingModList;
-import net.neoforged.fml.loading.moddiscovery.ModInfo;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.loading.LoadingModList;
+import net.minecraftforge.fml.loading.moddiscovery.ModInfo;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;

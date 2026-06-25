@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 
 import java.lang.reflect.Field;
 
-@Mixin(EmiConfig.class)
+@Mixin(value = EmiConfig.class, remap = false)
 public class EmiConfigMixin
 {
     @ModifyExpressionValue(method = "loadConfig(Ldev/emi/emi/com/unascribed/qdcss/QDCSS;)V", at= @At(value = "INVOKE", target = "Ljava/lang/Class;getFields()[Ljava/lang/reflect/Field;"))

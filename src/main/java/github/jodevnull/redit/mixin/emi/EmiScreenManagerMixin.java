@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.function.Function;
 
-@Mixin(value = EmiScreenManager.class)
+@Mixin(value = EmiScreenManager.class, remap = false)
 public class EmiScreenManagerMixin
 {
     @Inject(method = "recipeInteraction", at=@At("HEAD"), cancellable = true)

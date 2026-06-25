@@ -5,19 +5,24 @@ import com.mojang.logging.LogUtils;
 import github.jodevnull.redit.core.REditCommand;
 import github.jodevnull.redit.core.REditPackRepository;
 import github.jodevnull.redit.core.RecipeHandler;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.PackType;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.fml.loading.FMLPaths;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.AddPackFindersEvent;
-import net.neoforged.neoforge.event.RegisterCommandsEvent;
-import net.neoforged.neoforge.event.server.ServerStoppedEvent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.AddPackFindersEvent;
+import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.server.ServerStoppedEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.IModBusEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLPaths;
 import org.slf4j.Logger;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -31,14 +36,16 @@ public class REdit
 
     private static final REditPackRepository REPOSITORY = new REditPackRepository();
 
-    public REdit(IEventBus modEventBus, ModContainer modContainer)
+    public REdit(FMLJavaModLoadingContext context)
     {
-        modEventBus.addListener(this::commonSetup);
-        modEventBus.addListener(this::addPackRepository);
-        modContainer.registerConfig(ModConfig.Type.COMMON, Config.mSpec);
+        final IEventBus modBusEvent = context.getModEventBus();
 
-        NeoForge.EVENT_BUS.addListener(this::registerCommand);
-        NeoForge.EVENT_BUS.addListener(this::serverStopedEvent);
+        modBusEvent.addListener(this::commonSetup);
+        modBusEvent.addListener(this::addPackRepository);
+        context.registerConfig(ModConfig.Type.COMMON, Config.mSpec);
+
+        MinecraftForge.EVENT_BUS.addListener(this::registerCommand);
+        MinecraftForge.EVENT_BUS.addListener(this::serverStopedEvent);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -82,10 +89,21 @@ public class REdit
         final var meta = new JsonObject();
         final var pack = new JsonObject();
 
-        pack.add("pack_format", new JsonPrimitive(48));
+        pack.add("pack_format", new JsonPrimitive(15));
         pack.add("description", new JsonPrimitive("REdit Edited Recipes"));
         meta.add("pack", pack);
 
         return meta;
+    }
+
+    public static void clientError(@Nullable Player player, String message, Object... args) {
+        if (player == null)
+            return;
+
+        final var formatted = Component.literal(message.formatted(args));
+
+        player.displayClientMessage(
+            formatted.withStyle(style -> style.withColor(ChatFormatting.RED)), false
+        );
     }
 }

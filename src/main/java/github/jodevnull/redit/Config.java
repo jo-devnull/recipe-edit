@@ -1,16 +1,16 @@
 package github.jodevnull.redit;
 
-import net.neoforged.neoforge.common.ModConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.nio.file.Path;
 
 public class Config
 {
-    public static final ModConfigSpec mSpec;
-    public static final ModConfigSpec.Builder mBuilder = new ModConfigSpec.Builder();
+    public static final ForgeConfigSpec mSpec;
+    public static final ForgeConfigSpec.Builder mBuilder = new ForgeConfigSpec.Builder();
 
-    public static final ModConfigSpec.ConfigValue<String> outputPath;
-    public static final ModConfigSpec.BooleanValue deleteUnedited;
+    public static final ForgeConfigSpec.ConfigValue<String> outputPath;
+    public static final ForgeConfigSpec.BooleanValue deleteUnedited;
 
     public static boolean shouldDeleteUnedited() {
         return deleteUnedited.get();
